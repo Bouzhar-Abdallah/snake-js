@@ -1,7 +1,7 @@
 // Create the canvas
 const contentElement = document.getElementById("content");
 
-//creating grid
+// Creating grid
 for (let i = 0; i < 20; i++) {
   const line = document.createElement("div");
   for (let j = 0; j < 20; j++) {
@@ -35,52 +35,28 @@ class Controle {
   speed = 2;
   x = 1;
   y = 1;
+  prevX = 1; // Initialize prevX to 0
+  prevY = 1; // Initialize prevY to 0
 
   setDirection(direction) {
     this.direction = direction;
+    console.log("turned", direction);
   }
 
   mouve(x = this.x, y = this.y) {
+    
     let square = document.getElementById(x + "-" + y);
     setTimeout(() => {
       activateSquare(x, y);
 
-      // Determine the previous square's position
-      let prevX = x;
-      let prevY = y;
-      switch (this.direction) {
-        case "right":
-          if (x === 0) {
-            prevX = 19;
-          } else {
-            prevX--;
-          }
-          break;
-        case "left":
-          if (x === 19) {
-            prevX = 0;
-          } else {
-            prevX++;
-          }
-          break;
-        case "up":
-          if (y === 19) {
-            prevY = 0;
-          } else {
-            prevY++;
-          }
-          break;
-        case "down":
-          if (y === 0) {
-            prevY = 19;
-          } else {
-            prevY--;
-          }
-          break;
-      }
-
       // Turn off the previous square
-      shutdownSquare(prevX, prevY);
+      shutdownSquare(this.prevX, this.prevY);
+      console.log("previous: ", this.prevX, this.prevY);
+      console.log("current: ", this.x, this.y);
+
+      // Update prevX and prevY
+      this.prevX = x;
+      this.prevY = y;
 
       // Move the square based on the direction
       switch (this.direction) {
@@ -126,8 +102,6 @@ class Controle {
     }, 400 / this.speed);
   }
 }
-
-
 
 const controle = new Controle();
 controle.mouve();
