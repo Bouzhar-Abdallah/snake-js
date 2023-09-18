@@ -33,7 +33,7 @@ function shutdownSquare(i, j) {
 class Controle {
   direction = "right"; // Initial direction
   speed = 5;
-  size = 4;
+  size = 10;
   x = 4;
   y = 9;
   prevX = this.x; // Initialize prevX to 0
