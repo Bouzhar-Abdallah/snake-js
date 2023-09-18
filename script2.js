@@ -37,7 +37,7 @@ class Controle {
     }
   direction = "right"; // Initial direction
   speed = 2;
-  size = 2;
+  size = 1;
   x = 4;
   y = 9;
   prevX = this.x; // Initialize prevX to 0
@@ -50,7 +50,7 @@ class Controle {
   }
   generateBait(){
     let score = document.getElementById("score")
-    score.innerText = this.size
+    score.innerText = this.size -1
     this.xBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
     this.yBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
     let square = document.getElementById(this.xBait + "-" + this.yBait);
