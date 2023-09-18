@@ -30,10 +30,12 @@ h1,h2{
     height: 600px;
     background-color: #05204A;
     margin: 50px;
+    position: relative;
 }
 
 .square{
     background: white;
     width: 30px;
     height: 30px;
+    position: absolute;
 }
