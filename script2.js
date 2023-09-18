@@ -31,21 +31,36 @@ function shutdownSquare(i, j) {
 }
 
 class Controle {
+    constructor(){
+        let square = document.getElementById(this.xBait + "-" + this.yBait);
+        square.style.background = "#8734f2";
+    }
   direction = "right"; // Initial direction
-  speed = 5;
-  size = 10;
+  speed = 2;
+  size = 2;
   x = 4;
   y = 9;
   prevX = this.x; // Initialize prevX to 0
   prevY = this.y; // Initialize prevY to 0
-
+  xBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
+  yBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
   setDirection(direction) {
     this.direction = direction;
     
   }
-
+  generateBait(){
+    let score = document.getElementById("score")
+    score.innerText = this.size
+    this.xBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
+    this.yBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
+    let square = document.getElementById(this.xBait + "-" + this.yBait);
+        square.style.background = "#8734f2";
+  }
   mouve(x = this.x, y = this.y) {
-    
+    if(this.x === this.xBait && this.y === this.yBait){
+        this.generateBait()
+        this.size ++
+    }
     let square = document.getElementById(x + "-" + y);
     setTimeout(() => {
       activateSquare(x, y);
