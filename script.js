@@ -23,22 +23,24 @@
 
     event.preventDefault();
   }, true);  */
+/* class Snake {
+    score;
+    posX = 0;
+    posY = 0;
+    speed;
+    headElement = document.getElementById("head"); 
+    
+    mouve(){
+        const speed = 5;
+        this.posX +=speed;
+        this.headElement.style.left = this.posX +'px';
+        console.log(this.posX)
+        if(this.posX <600) setTimeout(this.mouve(),500)
+      }
+}
 
-  var score = 1;
-  var posX = 0;
-  var posY = 0;
-
-  const headElement = document.getElementById("head"); 
-
-  function mouve(){
-    const speed = 5;
-    posX +=speed;
-    headElement.style.left = posX +'px';
-  }
-
-  do {
-    setTimeout(mouve(),100);
-  } while (posX < 500); 
 
 
+const snake = new Snake();
+setTimeout(snake.mouve(),500) */
 

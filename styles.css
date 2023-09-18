@@ -28,14 +28,18 @@ h1,h2{
 .content{
     width: 600px;
     height: 600px;
-    background-color: #05204A;
+    
     margin: 50px;
     position: relative;
 }
 
 .square{
-    background: white;
+    background-color: #05204A;
+    border: 1px #05004A solid;
     width: 30px;
     height: 30px;
-    position: absolute;
+    
+}
+.line{
+    display: flex;
 }
