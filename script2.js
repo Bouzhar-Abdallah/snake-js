@@ -31,16 +31,17 @@ function shutdownSquare(i, j) {
 }
 
 class Controle {
-  direction = "down"; // Initial direction
-  speed = 2;
-  x = 1;
-  y = 1;
-  prevX = 1; // Initialize prevX to 0
-  prevY = 1; // Initialize prevY to 0
+  direction = "right"; // Initial direction
+  speed = 5;
+  size = 4;
+  x = 4;
+  y = 9;
+  prevX = this.x; // Initialize prevX to 0
+  prevY = this.y; // Initialize prevY to 0
 
   setDirection(direction) {
     this.direction = direction;
-    console.log("turned", direction);
+    
   }
 
   mouve(x = this.x, y = this.y) {
@@ -50,9 +51,12 @@ class Controle {
       activateSquare(x, y);
 
       // Turn off the previous square
-      shutdownSquare(this.prevX, this.prevY);
-      console.log("previous: ", this.prevX, this.prevY);
-      console.log("current: ", this.x, this.y);
+      let prevX = this.prevX
+      let prevY = this.prevY
+      setTimeout(() => {
+        shutdownSquare(prevX, prevY);
+      },  (this.size -1) * (400 / this.speed));
+     /*  */
 
       // Update prevX and prevY
       this.prevX = x;
