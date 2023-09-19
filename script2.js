@@ -1,114 +1,130 @@
-// Create the canvas
-const contentElement = document.getElementById("content");
+// Constants for grid size and cell size
+const GRID_SIZE = 20;
+const CELL_SIZE = 30;
 
-// Creating grid
-for (let i = 0; i < 20; i++) {
+// Create the grid
+const contentElement = document.getElementById("content");
+const grid = [];
+
+for (let i = 0; i < GRID_SIZE; i++) {
   const line = document.createElement("div");
-  for (let j = 0; j < 20; j++) {
+  line.classList.add("line");
+  const row = [];
+
+  for (let j = 0; j < GRID_SIZE; j++) {
     const square = document.createElement("div");
     square.id = j + "-" + i;
     square.classList.add("square");
-    line.classList.add("line");
+    square.style.left = j * CELL_SIZE + "px";
+    square.style.top = i * CELL_SIZE + "px";
     line.appendChild(square);
+    row.push(square);
   }
+
   contentElement.appendChild(line);
+  grid.push(row);
 }
 
 // Function to turn square to light color
 function activateSquare(i, j) {
-  let square = document.getElementById(i + "-" + j);
-  square.style.background = "#fff";
+  grid[j][i].style.background = "#fff";
 }
 
 // Function to reset square color
 function shutdownSquare(i, j) {
-  let square = document.getElementById(i + "-" + j);
   try {
-    square.style.background = "#05204A";
+    grid[j][i].style.background = "#05204A";
   } catch (e) {
     console.log(e);
   }
 }
 
-class Controle {
-  direction = "right"; // Initial direction
-  speed = 5;
-  size = 10;
-  x = 4;
-  y = 9;
-  prevX = this.x; // Initialize prevX to 0
-  prevY = this.y; // Initialize prevY to 0
+class Snake {
+  constructor() {
+    this.direction = "right";
+    this.speed = 5;
+    this.size = 2;
+    this.x = 4;
+    this.y = 9;
+    this.prevX = this.x;
+    this.prevY = this.y;
+    this.scoreElement = document.getElementById("score");
+    this.bait = {
+      posX: this.getRandomPosition(),
+      posY: this.getRandomPosition(),
+    };
+    this.score = 0;
+
+    // Initialize the bait position
+    let square = document.getElementById(this.bait.posX + "-" + this.bait.posY);
+    square.style.background = "#8734f2";
+
+    // Start the game loop
+    this.move();
+  }
 
   setDirection(direction) {
     this.direction = direction;
-    
   }
 
-  mouve(x = this.x, y = this.y) {
-    
-    let square = document.getElementById(x + "-" + y);
+  move(x = this.x, y = this.y) {
     setTimeout(() => {
       activateSquare(x, y);
 
       // Turn off the previous square
-      let prevX = this.prevX
-      let prevY = this.prevY
+      let prevX = this.x;
+      let prevY = this.y;
+
       setTimeout(() => {
         shutdownSquare(prevX, prevY);
-      },  (this.size -1) * (400 / this.speed));
-     /*  */
+      }, (this.size - 1) * (400 / this.speed));
 
-      // Update prevX and prevY
-      this.prevX = x;
-      this.prevY = y;
-
-      // Move the square based on the direction
       switch (this.direction) {
         case "right":
-          if (x === 19) {
-            this.x = 0;
-            this.mouve(this.x, y);
-          } else {
-            this.x++;
-            this.mouve(this.x, y);
-          }
+          x = (x + 1) % GRID_SIZE;
           break;
         case "left":
-          if (x === 0) {
-            this.x = 19;
-            this.mouve(this.x, y);
-          } else {
-            this.x--;
-            this.mouve(this.x, y);
-          }
+          x = (x - 1 + GRID_SIZE) % GRID_SIZE;
           break;
         case "up":
-          // Handle movement up
-          if (y === 0) {
-            this.y = 19;
-            this.mouve(x, this.y);
-          } else {
-            this.y--;
-            this.mouve(x, this.y);
-          }
+          y = (y - 1 + GRID_SIZE) % GRID_SIZE;
           break;
         case "down":
-          // Handle movement down
-          if (y === 19) {
-            this.y = 0;
-            this.mouve(x, this.y);
-          } else {
-            this.y++;
-            this.mouve(x, this.y);
-          }
+          y = (y + 1) % GRID_SIZE;
           break;
       }
+
+      if (this.isCollisionWithBait(x, y)) {
+        this.score += 10;
+        this.size++;
+        this.setBait();
+        this.scoreElement.innerHTML = this.score;
+      }
+
+      this.x = x;
+      this.y = y;
+
+      this.move(this.x, this.y);
     }, 400 / this.speed);
+  }
+
+  setBait() {
+    this.bait.posX = this.getRandomPosition();
+    this.bait.posY = this.getRandomPosition();
+    let square = document.getElementById(this.bait.posX + "-" + this.bait.posY);
+    square.style.background = "#8734f2";
+  }
+
+  getRandomPosition() {
+    return (Math.floor(Math.random() * GRID_SIZE));
+  }
+
+  isCollisionWithBait(x, y) {
+    return this.bait.posX === x && this.bait.posY === y;
   }
 }
 
-const controle = new Controle();
-controle.mouve();
+const snack = new Snake();
 
 // Event listener for arrow key presses to change direction
 window.addEventListener("keydown", function (event) {
@@ -118,16 +134,16 @@ window.addEventListener("keydown", function (event) {
 
   switch (event.key) {
     case "ArrowDown":
-      controle.setDirection("down");
+      if (snack.direction !== 'up') snack.setDirection("down");
       break;
     case "ArrowUp":
-      controle.setDirection("up");
+      if (snack.direction !== 'down') snack.setDirection("up");
       break;
     case "ArrowLeft":
-      controle.setDirection("left");
+      if (snack.direction !== 'right') snack.setDirection("left");
       break;
     case "ArrowRight":
-      controle.setDirection("right");
+      if (snack.direction !== 'left') snack.setDirection("right");
       break;
     default:
       return;

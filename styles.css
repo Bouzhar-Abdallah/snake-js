@@ -33,13 +33,13 @@ h1,h2{
     position: relative;
 }
 
-.square{
+.square {
     background-color: #05204A;
-    
+    border: 1px #05004A solid;
     width: 30px;
     height: 30px;
-    
 }
+
 .line{
     display: flex;
 }
