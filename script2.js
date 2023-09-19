@@ -36,14 +36,14 @@ class Controle {
         square.style.background = "#8734f2";
     }
   direction = "right"; // Initial direction
-  speed = 2;
+  speed = 4;
   size = 1;
   x = 4;
   y = 9;
   prevX = this.x; // Initialize prevX to 0
   prevY = this.y; // Initialize prevY to 0
-  xBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
-  yBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
+  xBait = Math.floor(Math.random() * (20)) 
+  yBait = Math.floor(Math.random() * (20)) 
   setDirection(direction) {
     this.direction = direction;
     
@@ -51,8 +51,8 @@ class Controle {
   generateBait(){
     let score = document.getElementById("score")
     score.innerText = this.size -1
-    this.xBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
-    this.yBait = Math.floor(Math.random() * (19 - 0 + 1)) + 0
+    this.xBait = Math.floor(Math.random() * (20))
+    this.yBait = Math.floor(Math.random() * (20))
     let square = document.getElementById(this.xBait + "-" + this.yBait);
         square.style.background = "#8734f2";
   }

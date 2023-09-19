@@ -35,7 +35,7 @@ h1,h2{
 
 .square{
     background-color: #05204A;
-    border: 1px #05004A solid;
+    transition: all ease-out 50ms;
     width: 30px;
     height: 30px;
     
